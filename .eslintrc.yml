@@ -1,0 +1,151 @@
+parser: "babel-eslint"
+extends:
+  - "airbnb"
+  - "plugin:flowtype/recommended"
+plugins:
+  - "babel"
+  - "class-property"
+  - "filenames"
+  - "flowtype"
+env:
+  node: true
+
+# Rules below that change or extend the airbnb codestyle should have a corresponding comment.
+rules:
+
+  # change quote rule to double quotes because single quotes is just plain dumb
+  quotes:
+    - 2
+    - "double"
+
+  # wut. Too much whitespace.
+  lines-between-class-members:
+    - 0
+
+  # Lots of console.log in node code.
+  no-console:
+    - 0
+
+  # Require curly braces around if/while/for/etc blocks.
+  curly:
+    - 2
+    - "all"
+
+  # Require parenthesis around arrow functions only when needed.
+  arrow-parens:
+    - "error"
+    - "as-needed"
+
+  # Require consistent line-breaks when formatting function arguments.
+  function-paren-newline:
+    - "error"
+    - "consistent"
+
+  # This is a very nice rule since it catches when you import a default instead of a named export.
+  # However, it conflicts with our current style. I'll add this back if it catches too many
+  # people off-guard.
+  import/no-named-default: 0
+
+  # Our lerna structure is a bit too complex for this to be useful
+  import/no-extraneous-dependencies: 0
+
+  # We prefer ES6 import/export syntax.
+  import/no-commonjs: 2
+
+  # This can tell the difference between flowtype imports and ES imports. `no-duplicate-imports`
+  # cannot.
+  import/no-duplicates: 2
+
+  # No need to force defaults on exports, particularly for single-export action modules.
+  import/prefer-default-export: 0
+
+  # Allows aligning object property values, but does not enforce it.
+  key-spacing:
+    - 2
+    -
+      mode: "minimum"
+
+  # We <3 underscore dangles for private methods
+  no-underscore-dangle: 0
+
+  # Not included in airbnb config.
+  class-property/class-property-semicolon: 2
+
+  # Augment AirBNB rule to ignore import statements
+  max-len:
+    - 2
+    -
+      code: 120   # Maximum line length
+      comments: 120
+      tabWidth: 2
+      ignoreUrls: false
+      ignorePattern: "^import(\\s.+\\sfrom\\s.+;)|(\\((.*)\\))$"
+      ignoreTrailingComments: false
+      ignoreComments: false
+
+  # @see `import/no-duplicates`.
+  no-duplicate-imports: 0
+
+  # Dumb rule. An instance method doesn't need to refer to its instance.
+  class-methods-use-this: 0
+
+  # This would be a good rule to enable, but we rely on non-Error promises.
+  prefer-promise-reject-errors: 0
+
+  # Stupid rule. Concatenation is fine.
+  prefer-template: 0
+
+  # Allow only camelCase or TitleCase files names, optionally with .react or .test suffix.
+  filenames/match-regex:
+    - 2
+    - "^((([A-Z]|[a-z])([A-Z0-9]*[a-z][a-z0-9]*[A-Z]|[a-z0-9]*[A-Z][A-Z0-9]*[a-z])[A-Za-z0-9]*)|([A-Z]?[a-z]+))(\\.(spec|test))?$"
+    - true
+
+  # The default export of a module must match its filename.
+  filenames/match-exported:
+    - 2
+    - null
+
+  # Disallows `index.js`. We should enable this due to side-effects of index files, but it's
+  # disabled for now until someone gets around to refactoring some code.
+  filenames/no-index: 0
+
+  # Marks Flow type identifiers as defined. Used to suppress no-undef reporting of type identifiers.
+  flowtype/define-flow-type: 1
+
+  # All function parameters must have type annotations, except arrow functions.
+  flowtype/require-parameter-type:
+    - 2
+    -
+      excludeArrowFunctions: true
+
+  # All return types must be annotated, including void / undefined
+  flowtype/require-return-type:
+    - 2
+    - "always"
+    -
+      annotateUndefined: "always"
+      excludeArrowFunctions: true
+
+  # Alphabetic ordering of flow type keys.
+  flowtype/sort-keys: 2
+
+  # Requires a space after a type colon (eg. const x: number = 5;)
+  flowtype/space-after-type-colon:
+    - 1
+    - "always"
+
+  # All files must have a @flow annotation
+  flowtype/require-valid-file-annotation:
+    - 2
+    - "always"
+
+  # Typedefs should match plain JS object multiline styles.
+  flowtype/delimiter-dangle:
+    - 2
+    - "always-multiline"
+
+  # Always require semicolons for Flow types.
+  flowtype/semi:
+    - 2
+    - "always"
